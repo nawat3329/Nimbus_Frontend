@@ -11,6 +11,10 @@ class UserService {
     getUserBoard() {
         return axios.get(API_URL + 'user', { headers: authHeader() });
     }
+
+    async getHomeContent() {
+        return axios.get(API_URL + "home");
+    }
 }
 
 export default new UserService();
