@@ -1,8 +1,12 @@
 import React, { Component } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-export default class Profile extends Component {
+import { withRouter } from '../common/with-router';
+
+
+class Profile extends Component {
     constructor(props) {
         super(props);
 
@@ -18,6 +22,8 @@ export default class Profile extends Component {
 
         if (!currentUser) this.setState({ redirect: "/home" });
         this.setState({ currentUser: currentUser, userReady: true })
+
+        console.log(this.props.router.params)
     }
 
     render() {
@@ -54,3 +60,4 @@ export default class Profile extends Component {
         );
     }
 }
+export default withRouter(Profile);

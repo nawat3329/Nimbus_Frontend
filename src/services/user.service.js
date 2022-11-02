@@ -13,23 +13,27 @@ class UserService {
         return axios.get(API_URL + 'user', { headers: authHeader() });
     }
 
-    async getHomeContent() {
-        return axios.get(API_URL + "home");
+    async getHomeContent(page) {
+        return await axios.get(API_URL + "home", { params: { page } });
     }
 
-    async publishPost(text,visibility) {
+    async publishPost(text, visibility) {
         console.log(text)
         console.log(visibility)
-        const response =  (axios.post(API_URL + "post", { text, visibility, }, {headers: authHeader()}));
+        const response = (axios.post(API_URL + "insertpost", { text, visibility, }, { headers: authHeader() }));
         toast.promise(
             response,
             {
-              pending: 'Publishing your post',
-              success: 'Your post successfully publish 👌',
-              error: 'Something went wrong 🤯'
+                pending: 'Publishing your post',
+                success: 'Your post successfully publish 👌',
+                error: 'Something went wrong 🤯'
             }
         )
         return response
+    }
+
+    async getTotalPageHome() {
+        return axios.get(API_URL + "getTotalPageHome");
     }
 }
 

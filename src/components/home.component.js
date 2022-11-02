@@ -18,23 +18,41 @@ export default class Home extends Component {
 			textInput: "",
 			visibilityInput: "Public",
 			visibilityView: "Public",
-			page: 1
+			page: 1,
+			totalPage: 1
 		};
 	}
 
 	componentDidMount() {
 		this.fetchHomeContent();
+		UserService.getTotalPageHome().then(
+			(response) => {
+				this.setState({
+					totalPage: response.data.totalPage
+				})
+			},
+			(error) => {
+				this.setState({
+					content:
+						(error.response && error.response.data) ||
+						error.message ||
+						error.toString(),
+				});
+			}
+		)
 	}
 
 	fetchHomeContent = () => {
-		UserService.getHomeContent().then(
+		console.log(this.state.totalPage);
+		UserService.getHomeContent(this.state.page).then(
 			(response) => {
+				console.log(this.state.page);
 				console.log(response);
 				const rows = [];
 				for (let i = 0; i < response.data.length; i++) {
 					rows.push(
 						<div key={response.data[i]?._id} className="card">
-							<h5 className="card-header">{response.data[i]?.author}</h5>
+							<h5 className="card-header">{response.data[i]?.username}</h5>
 							<div className="card-body">
 								<h5 className="card-title">{response.data[i]?.text}</h5>
 								<p className="card-text">
@@ -77,25 +95,15 @@ export default class Home extends Component {
 			}
 		)
 	}
+	
+	changePage = (move) => {
+		this.setState((prevState) => ({ 
+			page: prevState.page + move}),
+			() => this.fetchHomeContent());
+	}
 
 	publishPostMenu = () => {
 		return (
-			// < div class="input-group mb-3" >
-			// 	<input type="text" class="form-control" placeholder="Write something!" aria-describedby="basic-addon2"
-			// 		onChangeText={(text) => this.setState({ textInput: text })}>
-			// 	</input>
-			// 	<div class="input-group-append">
-			// 		<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Visibility</button>
-			// 		<div class="dropdown-menu" onChange={(e) => this.setState({ visibilityInput: e.target.value })}>
-			// 			<a class="dropdown-item" href="/#" >Public</a>
-			// 			<a class="dropdown-item" href="/#" >Follow</a>
-			// 			<a class="dropdown-item" href="/#" >Private</a>
-			// 		</div>
-			// 		<button class="btn btn-outline-secondary" type="button"
-			// 			onClick={this.publishPost}
-			// 		>Publish</button>
-			// 	</div>
-			// </div>
 			<InputGroup className="mb-3">
 				<Form.Control placeholder="Write Something!" value={this.state.textInput} onChange={(event) => this.setState({ textInput: event.target.value })}/>
 
@@ -117,9 +125,16 @@ export default class Home extends Component {
 
 	pageButton = () => {
 		return (
-			<div class="d-flex justify-content-between">
-				<Button />
-				<Button />
+			<div class="d-flex justify-content-around">
+				<Button
+					disabled={this.state.page <= 1}
+					onClick={() => this.changePage(-1)}
+				>
+				Previous Page </Button>
+				<Button
+					disabled={this.state.page >= this.state.totalPage}
+					onClick={() => this.changePage(1)}
+				>Next Page</Button>
 			</div>
 		)
 	}
@@ -130,7 +145,7 @@ export default class Home extends Component {
 				<header className="jumbotron">
 					<this.publishPostMenu />
 					<h3>{this.state.content}</h3>
-					{/* <this.pageButton /> */}
+					<this.pageButton /> 
 				</header>
 			</div>
 		);
