@@ -32,10 +32,39 @@ class UserService {
         return response
     }
 
-
-
     async getProfileContent(page, profile_userID){
         return await axios.get(API_URL + "getProfileContent", { params: { page, profile_userID } , headers: authHeader() });
+    }
+
+    async getProfileDetail(profile_userID){
+        return await axios.get(API_URL + "getProfileDetail", { params: { profile_userID } , headers: authHeader() });
+    }
+
+    async follow(profile_userID) {
+        const response = (axios.post(API_URL + "follow", { profile_userID }, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'Following',
+                success: 'Follow successfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
+    }
+
+    async unfollow(profile_userID) {
+        console.log(profile_userID)
+        const response = (axios.post(API_URL + "unfollow", { profile_userID }, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'Unfollowing',
+                success: 'Unfollow successfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
     }
 }
 
