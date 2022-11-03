@@ -32,8 +32,10 @@ class UserService {
         return response
     }
 
-    async getTotalPageHome() {
-        return axios.get(API_URL + "getTotalPageHome");
+
+
+    async getProfileContent(page, profile_userID){
+        return await axios.get(API_URL + "getProfileContent", { params: { page, profile_userID } , headers: authHeader() });
     }
 }
 

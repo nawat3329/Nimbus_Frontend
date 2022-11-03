@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
-
+import { toast } from 'react-toastify';
 import { withRouter } from '../common/with-router';
-
-
+import Content from "../common/content";
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -13,49 +11,61 @@ class Profile extends Component {
         this.state = {
             redirect: null,
             userReady: false,
-            currentUser: { username: "" }
+            currentUser: { username: "" },
         };
     }
 
     componentDidMount() {
+
         const currentUser = AuthService.getCurrentUser();
 
         if (!currentUser) this.setState({ redirect: "/home" });
         this.setState({ currentUser: currentUser, userReady: true })
 
-        console.log(this.props.router.params)
+        if (this.props.router.params){
+
+        }   
+            console.log(this.props.router.params)
     }
 
+    selfProfile = () => {
+        const { currentUser } = this.state;
+        return (
+            <div>
+                <header className="jumbotron">
+                    <h3>
+                        <strong>{currentUser.username}</strong> Profile
+                    </h3>
+                </header>
+                <p>
+                    <strong>Token:</strong>{" "}
+                    {currentUser.accessToken.substring(0, 20)} ...{" "}
+                    {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
+                </p>
+                <p>
+                    <strong>Id:</strong>{" "}
+                    {currentUser.id}
+                </p>
+                <p>
+                    <strong>Email:</strong>{" "}
+                    {currentUser.email}
+                </p>
+            </div>)
+    }
     render() {
         if (this.state.redirect) {
+            toast.error("You need to login to view that page")
             return <Navigate to={this.state.redirect} />
         }
 
-        const { currentUser } = this.state;
+
 
         return (
             <div className="container">
                 {(this.state.userReady) ?
-                    <div>
-                        <header className="jumbotron">
-                            <h3>
-                                <strong>{currentUser.username}</strong> Profile
-                            </h3>
-                        </header>
-                        <p>
-                            <strong>Token:</strong>{" "}
-                            {currentUser.accessToken.substring(0, 20)} ...{" "}
-                            {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-                        </p>
-                        <p>
-                            <strong>Id:</strong>{" "}
-                            {currentUser.id}
-                        </p>
-                        <p>
-                            <strong>Email:</strong>{" "}
-                            {currentUser.email}
-                        </p>
-                    </div> : null}
+                    // <this.selfProfile />
+                    <Content pageType="profile" profile_userID={this.props.router.params}/>
+                    : null}
             </div>
         );
     }
