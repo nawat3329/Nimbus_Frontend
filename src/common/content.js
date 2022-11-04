@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
+import {  Link } from "react-router-dom";
 
 import UserService from "../services/user.service";
 
@@ -41,25 +42,45 @@ export default class Content extends Component {
 				);
 			}
 		}
-		else if (this.props.pageType === "profile"){
-			console.log(this.props.profile_userID)
-			UserService.getProfileContent(this.state.page, this.props.profile_userID.userID).then(
-				(response) => {
-					console.log(response);
-					this.setState({
-						totalPage: response.data.totalPage
-					})
-					this.insertResponse(response.data.postRes)
-				},
-				(error) => {
-					this.setState({
-						content:
-							(error.response && error.response.data) ||
-							error.message ||
-							error.toString(),
-					});
-				}
-			);
+		else if (this.props.pageType === "profile") {
+			if (this.props.profile_userID) {
+				UserService.getProfileContent(this.state.page, this.props.profile_userID).then(
+					(response) => {
+						console.log(response);
+						this.setState({
+							totalPage: response.data.totalPage
+						})
+						this.insertResponse(response.data.postRes)
+					},
+					(error) => {
+						this.setState({
+							content:
+								(error.response && error.response.data) ||
+								error.message ||
+								error.toString(),
+						});
+					}
+				);
+			}
+			else {
+				UserService.getSelfProfileContent(this.state.page).then(
+					(response) => {
+						console.log(response);
+						this.setState({
+							totalPage: response.data.totalPage
+						})
+						this.insertResponse(response.data.postRes)
+					},
+					(error) => {
+						this.setState({
+							content:
+								(error.response && error.response.data) ||
+								error.message ||
+								error.toString(),
+						});
+					}
+				);
+			}
 		}
 	}
 
@@ -70,7 +91,9 @@ export default class Content extends Component {
 		for (let i = 0; i < response.length; i++) {
 			rows.push(
 				<div key={response[i]?._id} className="card">
-					<h5 className="card-header">{response[i]?.username}</h5>
+					<Link to={"/profile/"+response[i]?.author} className="card-header">
+					{response[i]?.username}
+					</Link>
 					<div className="card-body">
 						<h5 className="card-title">{response[i]?.text}</h5>
 						<p className="card-text">

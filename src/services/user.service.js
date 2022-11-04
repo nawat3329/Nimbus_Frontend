@@ -66,6 +66,10 @@ class UserService {
         )
         return response
     }
+
+    async getSelfProfileContent(page){
+        return await axios.get(API_URL + "getSelfProfileContent", { params: {page} , headers: authHeader() });
+    }
 }
 
 export default new UserService();

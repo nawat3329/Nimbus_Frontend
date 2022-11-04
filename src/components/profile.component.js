@@ -14,26 +14,18 @@ class Profile extends Component {
             redirect: null,
             userReady: false,
             currentUser: { username: "" },
-            userProfile: {}
+            userProfile: {},
         };
     }
 
     componentDidMount() {
-
         const currentUser = AuthService.getCurrentUser();
-
         if (!currentUser) this.setState({ redirect: "/home" });
-        this.setState({ currentUser: currentUser, userReady: true })
-
-        if (this.props.router.params) {
-
-        }
-        console.log(this.props.router.params)
-        this.getUserDetail();
+        this.setState({ currentUser: currentUser, userReady: true }, () => {this.getUserDetail()});
     }
 
     getUserDetail = () => {
-        UserService.getProfileDetail(this.props.router.params.userID).then(
+        UserService.getSelfProfileContent().then(
             (response) => {
                 console.log(response.data)
                 this.setState({
@@ -56,10 +48,15 @@ class Profile extends Component {
         return (
             <div>
                 <header className="jumbotron">
+                    <p>left Profile picture here</p>
                     <h3>
                         <strong>{currentUser.username}</strong> Profile
                     </h3>
                 </header>
+                <Button> Setting </Button>
+                <Button> Edit Profile </Button>
+
+                {/* for debug only */}
                 <p>
                     <strong>Token:</strong>{" "}
                     {currentUser.accessToken.substring(0, 20)} ...{" "}
@@ -76,62 +73,6 @@ class Profile extends Component {
             </div>)
     }
 
-    othersProfile = () => {
-
-        return (<header className="jumbotron">
-            <h3>
-                <strong>{this.state.userProfile.username}</strong> Profile
-            </h3>{(!this.state.userProfile.follow) ?
-                <Button
-                onClick={() => this.pressFollow()}
-                >
-                    Follow
-                </Button>
-                :
-                <Button
-                onClick={() => this.pressUnfollow()}
-                >
-                    Unfollow
-                </Button>
-            }
-
-        </header>)
-    }
-
-    pressFollow = () => {
-        UserService.follow(this.state.userProfile._id).then(
-            (response) => {
-                console.log(response.data)
-                this.getUserDetail();
-            },
-            (error) => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString(),
-                });
-            }
-        );
-    }
-
-    pressUnfollow = () => {
-        UserService.unfollow(this.state.userProfile._id).then(
-            (response) => {
-                console.log(response.data)
-                this.getUserDetail();
-            },
-            (error) => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString(),
-                });
-            }
-        );
-    }
-
     render() {
         if (this.state.redirect) {
             toast.error("You need to login to view that page")
@@ -144,9 +85,8 @@ class Profile extends Component {
             <div className="container">
                 {(this.state.userReady) ?
                     <div>
-                        {/* <this.selfProfile /> */}
-                        <this.othersProfile />
-                        <Content pageType="profile" profile_userID={this.props.router.params} />
+                        {this.selfProfile()}
+                        <Content pageType="profile" />
                     </div>
                     : null}
             </div>
