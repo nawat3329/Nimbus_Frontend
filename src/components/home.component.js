@@ -17,14 +17,15 @@ export default class Home extends Component {
 			textInput: "",
 			visibilityInput: "Public",
 			visibilityView: "Public",
+			selectedImage: null
 		};
 	}
 
 	publishPost = () => {
-		UserService.publishPost(this.state.textInput, this.state.visibilityInput).then(
+		UserService.publishPost(this.state.textInput, this.state.visibilityInput, this.state.selectedImage).then(
 			(response) => {
 				console.log(response);
-				this.setState({ textInput: ""});
+				this.setState({ textInput: "" });
 				this.child.current.fetchContent();
 			},
 			(error) => {
@@ -42,15 +43,15 @@ export default class Home extends Component {
 	publishPostMenu = () => {
 		return (
 			<InputGroup className="mb-3">
-				<Form.Control placeholder="Write Something!" value={this.state.textInput} onChange={(event) => this.setState({ textInput: event.target.value })}/>
+				<Form.Control placeholder="Write Something!" value={this.state.textInput} onChange={(event) => this.setState({ textInput: event.target.value })} />
 
 				<DropdownButton
-					onSelect={(e) => 
+					onSelect={(e) =>
 						this.setState({ visibilityInput: e })}
 					variant="outline-secondary"
 					title={this.state.visibilityInput}
 					align="end"
-					>
+				>
 					<Dropdown.Item eventKey="Public" href="#">Public</Dropdown.Item>
 					<Dropdown.Item eventKey="Follow" href="#">Follower</Dropdown.Item>
 					<Dropdown.Item eventKey="Private" href="#">Private</Dropdown.Item>
@@ -60,13 +61,39 @@ export default class Home extends Component {
 		)
 	}
 
+	UploadAndDisplayImage = () => {
+		return (
+			<div>
+				{this.state.selectedImage && (
+					<div>
+						<img alt="not fount" width={"250px"} src={URL.createObjectURL(this.state.selectedImage)} />
+						<br />
+						<button onClick={() => this.setState({selectedImage:null})}>Remove</button>
+					</div>
+				)}
+				<br />
+
+				<br />
+				<input
+					type="file"
+					name="myImage"
+					onChange={(event) => {
+						console.log(event.target.files[0]);
+						this.setState({selectedImage: event.target.files[0]});
+					}}
+				/>
+			</div>
+		);
+	};
+
 
 	render() {
 		return (
 			<div className="container">
 				<header className="jumbotron">
 					<this.publishPostMenu />
-					<Content ref={this.child} visibilityView={this.state.visibilityView} pageType="home"/>
+					<this.UploadAndDisplayImage />
+					<Content ref={this.child} visibilityView={this.state.visibilityView} pageType="home" />
 				</header>
 			</div>
 		);

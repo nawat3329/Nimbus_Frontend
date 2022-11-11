@@ -91,11 +91,11 @@ export default class Content extends Component {
 		for (let i = 0; i < response.length; i++) {
 			rows.push(
 				<div key={response[i]?._id} className="card">
-					<Link to={"/profile/"+response[i]?.author} className="card-header">
+					<Link to={"/profile/"+response[i]?.author} style={{ fontSize: 20, color:"black", textDecoration: 'none' }} className="card-header" > 
 					{response[i]?.username}
 					</Link>
 					<div className="card-body">
-						<h5 className="card-title">{response[i]?.text}</h5>
+						<h6 className="card-title">{response[i]?.text}</h6>
 						<p className="card-text">
 							picture here
 						</p>
