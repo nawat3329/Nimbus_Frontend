@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
-import {  Link } from "react-router-dom";
+import Image from 'react-bootstrap/Image';
+import {  Link,} from "react-router-dom";
 
 import UserService from "../services/user.service";
 
@@ -97,7 +98,7 @@ export default class Content extends Component {
 					<div className="card-body">
 						<h6 className="card-title">{response[i]?.text}</h6>
 						<p className="card-text">
-							picture here
+							<Image src={response[i]?.post_images}  fluid />
 						</p>
 					</div>
 				</div>
