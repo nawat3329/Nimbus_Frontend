@@ -11,6 +11,7 @@ import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import Follow from "./components/follow.component";
 import OthersProfile from "./components/others-profile.component";
+import Post from "./components/post.component";
 
 
 
@@ -105,6 +106,7 @@ class App extends Component {
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:userID" element={<OthersProfile />} />
             <Route path="/following" element={<Follow />} />
+            <Route path="/post/:postID" element={<Post />} />
           </Routes>
         </div>
       </div>

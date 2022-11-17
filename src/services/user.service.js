@@ -13,8 +13,8 @@ class UserService {
         return axios.get(API_URL + 'user', { headers: authHeader() });
     }
 
-    async getHomeContent(page) {
-        return await axios.get(API_URL + "home", { params: { page } });
+    async getHomeContent(page, userId) {
+        return await axios.get(API_URL + "home", { params: { page, userId } });
     }
 
     async getHomeFollowContent(page) {
@@ -44,7 +44,7 @@ class UserService {
             {
                 pending: 'Publishing your post',
                 success: 'Your post successfully publish 👌',
-                error: 'Something went wrong 🤯'
+                error: "Something went wrong (Not image or too large)"
             }
         )
         return response
@@ -56,6 +56,10 @@ class UserService {
 
     async getProfileDetail(profile_userID){
         return await axios.get(API_URL + "getProfileDetail", { params: { profile_userID } , headers: authHeader() });
+    }
+
+    async getpostdetail(postId){
+        return await axios.get(API_URL + "getpostdetail", { params: { postId } , headers: authHeader() });
     }
 
     async follow(profile_userID) {
@@ -87,6 +91,34 @@ class UserService {
 
     async getSelfProfileContent(page){
         return await axios.get(API_URL + "getSelfProfileContent", { params: {page} , headers: authHeader() });
+    }
+
+    async like(postId){
+        console.log(postId)
+        const response = (axios.post(API_URL + "like", { postId }, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'Liking',
+                success: 'Liked Succesfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
+    }
+
+    async unlike(postId){
+        console.log(postId)
+        const response = (axios.post(API_URL + "unlike", { postId }, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'Unliking',
+                success: 'Unliked Succesfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
     }
 }
 
