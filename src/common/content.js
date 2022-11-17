@@ -42,6 +42,24 @@ export default class Content extends Component {
 					}
 				);
 			}
+			else if (this.props.visibilityView === "Follow") {
+				UserService.getHomeFollowContent(this.state.page).then(
+					(response) => {
+						this.setState({
+							totalPage: response.data.totalPage
+						})
+						this.insertResponse(response.data.postRes)
+					},
+					(error) => {
+						this.setState({
+							content:
+								(error.response && error.response.data) ||
+								error.message ||
+								error.toString(),
+						});
+					}
+				);
+			}
 		}
 		else if (this.props.pageType === "profile") {
 			if (this.props.profile_userID) {

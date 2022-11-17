@@ -17,6 +17,10 @@ class UserService {
         return await axios.get(API_URL + "home", { params: { page } });
     }
 
+    async getHomeFollowContent(page) {
+        return await axios.get(API_URL + "homefollow", { params: { page }, headers: authHeader() });
+    }
+
     async publishPost(text, visibility, image) {
         var response;
         console.log(text);
@@ -33,8 +37,7 @@ class UserService {
             response =  axios.post(API_URL + "insertpostimage", formData, { headers: {...authHeader(), 'Content-Type': 'multipart/form-data'} });
         }
         else{
-            console.log("no pic :(");
-        // response = (axios.post(API_URL + "insertpost", { text, visibility}, { headers: authHeader() }));
+            response = (axios.post(API_URL + "insertpost", { text, visibility}, { headers: authHeader() }));
         }
         toast.promise(
             response,
