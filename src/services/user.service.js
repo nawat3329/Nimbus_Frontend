@@ -17,10 +17,28 @@ class UserService {
         return await axios.get(API_URL + "home", { params: { page } });
     }
 
-    async publishPost(text, visibility) {
-        console.log(text)
-        console.log(visibility)
-        const response = (axios.post(API_URL + "insertpost", { text, visibility, }, { headers: authHeader() }));
+    async getHomeFollowContent(page) {
+        return await axios.get(API_URL + "homefollow", { params: { page }, headers: authHeader() });
+    }
+
+    async publishPost(text, visibility, image) {
+        var response;
+        console.log(text);
+        console.log(visibility);
+        console.log(image);
+        if(image){
+            const formData = new FormData();
+            formData.append('image', image);
+            formData.append('text', text);
+            formData.append('visibility', visibility);
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ': ' + pair[1]); 
+            }
+            response =  axios.post(API_URL + "insertpostimage", formData, { headers: {...authHeader(), 'Content-Type': 'multipart/form-data'} });
+        }
+        else{
+            response = (axios.post(API_URL + "insertpost", { text, visibility}, { headers: authHeader() }));
+        }
         toast.promise(
             response,
             {

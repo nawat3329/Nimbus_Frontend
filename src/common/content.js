@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
-import {  Link } from "react-router-dom";
+import Image from 'react-bootstrap/Image';
+import {  Link,} from "react-router-dom";
 
 import UserService from "../services/user.service";
 
@@ -25,6 +26,24 @@ export default class Content extends Component {
 		if (this.props.pageType === "home") {
 			if (this.props.visibilityView === "Public") {
 				UserService.getHomeContent(this.state.page).then(
+					(response) => {
+						this.setState({
+							totalPage: response.data.totalPage
+						})
+						this.insertResponse(response.data.postRes)
+					},
+					(error) => {
+						this.setState({
+							content:
+								(error.response && error.response.data) ||
+								error.message ||
+								error.toString(),
+						});
+					}
+				);
+			}
+			else if (this.props.visibilityView === "Follow") {
+				UserService.getHomeFollowContent(this.state.page).then(
 					(response) => {
 						this.setState({
 							totalPage: response.data.totalPage
@@ -91,13 +110,13 @@ export default class Content extends Component {
 		for (let i = 0; i < response.length; i++) {
 			rows.push(
 				<div key={response[i]?._id} className="card">
-					<Link to={"/profile/"+response[i]?.author} className="card-header">
+					<Link to={"/profile/"+response[i]?.author} style={{ fontSize: 20, color:"black", textDecoration: 'none' }} className="card-header" > 
 					{response[i]?.username}
 					</Link>
 					<div className="card-body">
-						<h5 className="card-title">{response[i]?.text}</h5>
+						<h6 className="card-title">{response[i]?.text}</h6>
 						<p className="card-text">
-							picture here
+							<Image src={response[i]?.post_images}  fluid />
 						</p>
 					</div>
 				</div>

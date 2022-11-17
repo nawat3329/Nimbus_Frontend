@@ -9,7 +9,7 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
+import Follow from "./components/follow.component";
 import OthersProfile from "./components/others-profile.component";
 
 
@@ -59,8 +59,8 @@ class App extends Component {
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
+                <Link to={"/following"} className="nav-link">
+                  Following
                 </Link>
               </li>
             )}
@@ -104,7 +104,7 @@ class App extends Component {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:userID" element={<OthersProfile />} />
-            <Route path="/user" element={<BoardUser />} />
+            <Route path="/following" element={<Follow />} />
           </Routes>
         </div>
       </div>
