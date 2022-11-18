@@ -176,6 +176,18 @@ class UserService {
         )
         return response
     }
+    async searchUser(username){
+        const response = (axios.post(API_URL + "searchuser", {username} ,{ headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'searching user',
+                success: 'Found user! 👌',
+                error: 'User not found !'
+            }
+        )
+        return response
+    }
 }
 
 export default new UserService();
