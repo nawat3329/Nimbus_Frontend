@@ -120,6 +120,62 @@ class UserService {
         )
         return response
     }
+    async addcomment(postId, commenttext){
+        console.log(postId)
+        const response = (axios.post(API_URL + "addcomment", { postId, commenttext }, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'Adding comment',
+                success: 'Comment added Succesfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
+    }
+
+    async deletepost(postId){
+        const response = (axios.post(API_URL + "deletepost", { postId}, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'deleting post',
+                success: 'Post deleted Succesfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
+    }
+
+    async editpost(postId, text, visibility){
+        const response = (axios.post(API_URL + "editpost", { postId, text, visibility}, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'editing post',
+                success: 'Post edited Succesfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
+    }
+
+    async getPostComment(postId){
+        return await axios.get(API_URL + "getPostComment", { params: {postId} , headers: authHeader() });
+    }
+
+    async deletecomment(postId, commentId){
+        const response = (axios.post(API_URL + "deletecomment", { postId, commentId}, { headers: authHeader() }));
+        toast.promise(
+            response,
+            {
+                pending: 'deleting comment',
+                success: 'Comment deleted Succesfully! 👌',
+                error: 'Something went wrong 🤯'
+            }
+        )
+        return response
+    }
 }
 
 export default new UserService();
