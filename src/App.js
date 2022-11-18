@@ -3,6 +3,9 @@ import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+
 import AuthService from "./services/auth.service";
 
 import Login from "./components/login.component";
@@ -12,8 +15,7 @@ import Profile from "./components/profile.component";
 import Follow from "./components/follow.component";
 import OthersProfile from "./components/others-profile.component";
 import Post from "./components/post.component";
-
-
+import Search from "./components/search.component";
 
 class App extends Component {
   constructor(props) {
@@ -65,6 +67,9 @@ class App extends Component {
                 </Link>
               </li>
             )}
+            <li>
+              <Search />
+            </li>
           </div>
 
           {currentUser ? (
