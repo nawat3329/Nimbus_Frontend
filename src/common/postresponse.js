@@ -57,7 +57,7 @@ export default function PostResponse(props) {
         );
     }
 
-    function deletePost() {
+    function deletepost() {
         UserService.deletepost(response._id).then(
             (response) => {
                 console.log(response);
@@ -121,7 +121,7 @@ export default function PostResponse(props) {
                                 : <Button variant="outline-primary" size="sm" onClick={() => unlike()}> {"Unlike (" + count + ")"} </Button>}
                         </div>
                         <div className="p-2">
-                            <Button href={"post/"+ response._id} variant="secondary" size="sm">
+                            <Button href={"/post/"+ response._id} variant="secondary" size="sm">
                                 Comment ({response.comment?.length})
                             </Button>
                         </div>
@@ -129,6 +129,11 @@ export default function PostResponse(props) {
                             {response.author === userID ?
                                 <Button variant="outline-info" size="sm" onClick={() => setEditMode(prevMode => !prevMode)}>Edit</Button> : null}
                         </div>
+                        <div className="p-2">
+                            {response.author === userID ?
+                                <Button variant="outline-danger" size="sm" onClick={() => deletepost(response._id)}>Delete</Button> : null}
+                        </div>
+                        
 
                     </div>
                 </div>
