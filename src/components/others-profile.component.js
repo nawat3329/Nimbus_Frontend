@@ -6,6 +6,7 @@ import { withRouter } from '../common/with-router';
 import Content from "../common/content";
 import UserService from "../services/user.service";
 import Button from 'react-bootstrap/Button';
+import { Image } from "react-bootstrap";
 class OthersProfile extends Component {
     constructor(props) {
         super(props);
@@ -46,9 +47,11 @@ class OthersProfile extends Component {
 
     othersProfile = () => {
 
-        return (<header className="jumbotron">
-            <h3>
-                <strong>{this.state.userProfile.username}</strong> Profile
+        return (<header className="jumbotron" style={{display:"flex", flexDirection:"column"}}>
+            
+                <Image src={this.state.userProfile.images || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img"/>
+            <h3 style={{textAlign:"center"}}> 
+                <strong >{this.state.userProfile.username}</strong> Profile
             </h3>{(!this.state.userProfile.follow) ?
                 <Button
                 onClick={() => this.pressFollow()}

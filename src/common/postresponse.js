@@ -28,6 +28,7 @@ export default function PostResponse(props) {
             setText(response.text);
             setVisibility(response.visibility);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function like() {
@@ -86,6 +87,7 @@ export default function PostResponse(props) {
     return (
         <div key={response._id} className="card">
             <Link to={"/profile/" + response?.author} style={{ fontSize: 20, color: "black", textDecoration: 'none' }} className="card-header" >
+                <Image src={response?.images || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img-small"/>
                 {response?.username}
             </Link>
 

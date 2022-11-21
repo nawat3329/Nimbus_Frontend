@@ -86,7 +86,7 @@ export default class Home extends Component {
             <div>
                 {this.state.selectedImage && (
                     <div>
-                        <img alt="not fount" width={"250px"} src={URL.createObjectURL(this.state.selectedImage)} />
+                        <img alt="not found" width={"250px"} src={URL.createObjectURL(this.state.selectedImage)} />
                         <br />
                         <button onClick={() => this.setState({ selectedImage: null })}>Remove</button>
                     </div>

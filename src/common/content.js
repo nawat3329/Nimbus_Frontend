@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
-import Image from 'react-bootstrap/Image';
-import {  Link,} from "react-router-dom";
 import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
 import PostResponse from "./postresponse";
@@ -125,7 +123,8 @@ export default class Content extends Component {
 		this.setState((prevState) => ({
 			page: prevState.page + move
 		}),
-			() => this.fetchContent());
+			() => this.fetchContent() );
+			window.scrollTo({ top: 0 })
 	}
 
 	pageButton = () => {

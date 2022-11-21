@@ -50,6 +50,21 @@ class UserService {
         return response
     }
 
+    async changeProfilePicture(image){
+        const formData = new FormData();
+        formData.append('image', image);
+        const response =  axios.post(API_URL + "changeprofilepicture", formData, { headers: {...authHeader(), 'Content-Type': 'multipart/form-data'} });
+        toast.promise(
+            response,
+            {
+                pending: 'Updating your profile picture',
+                success: 'Your profile picture successfully updated 👌',
+                error: "Something went wrong (Not image or too large)"
+            }
+        )
+        return response
+    }
+
     async getProfileContent(page, profile_userID){
         return await axios.get(API_URL + "getProfileContent", { params: { page, profile_userID } , headers: authHeader() });
     }
@@ -188,6 +203,7 @@ class UserService {
         )
         return response
     }
+    
 }
 
 export default new UserService();

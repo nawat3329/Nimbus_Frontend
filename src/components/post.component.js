@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Link, } from "react-router-dom";
 import { withRouter } from '../common/with-router';
 import { toast } from 'react-toastify';
 import { Navigate } from "react-router-dom";
 import UserService from "../services/user.service";
 import PostResponse from "../common/postresponse";
 import AuthService from "../services/auth.service";
+import { Image } from "react-bootstrap";
 
 
 class Post extends Component {
@@ -85,12 +84,15 @@ class Post extends Component {
         var rows = [];
         for (let i = commentArray.length-1; i>=0; i--) {
 			rows.push(
-				<div key={commentArray._id} className="card">
-                    <h5 className="card-header">{commentArray[i].username}</h5>
+				<div key={commentArray[i]._id} className="card">
+                    <h5 className="card-header">
+                    <Image src={commentArray[i].images || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img-small"/>
+                        {commentArray[i].username}
+                    </h5>
                     <div className="card-body">
                         <h5 className="card-text">{commentArray[i].usercomment}</h5>
                     </div>
-                    <div className="p-2" key={"delete"+commentArray._id}>
+                    <div className="p-2">
                             {commentArray[i].usercommentid === this.state.userID ?
                                 <Button variant="outline-danger" size="sm" onClick={() => this.deleteComment(commentArray[i]._id)}>Delete</Button> : null}
                     </div>

@@ -1,7 +1,9 @@
+
 abel {
   display: block;
   margin-top: 10px;
 }
+
 
 .card-container.card {
   max-width: 350px !important;
@@ -26,6 +28,24 @@ abel {
   height: 96px;
   margin: 0 auto 10px;
   display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.profile-img {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.profile-img-small {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
