@@ -120,8 +120,7 @@ class Profile extends Component {
             <div className="container">
                 {(this.state.userReady) ?
                     <div>
-                        {this.selfProfile()}
-
+                        <this.selfProfile />
                     </div>
                     : null}
             </div>
