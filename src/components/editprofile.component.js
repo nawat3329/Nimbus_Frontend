@@ -21,7 +21,7 @@ class Profile extends Component {
 
     componentDidMount() {
         const currentUser = AuthService.getCurrentUser();
-        this.setState({ currentUser: currentUser, userReady: true }, () => {this.getUserDetail()});
+        this.setState({ currentUser: currentUser, userReady: true }, () => { this.getUserDetail() });
     }
 
     getUserDetail = () => {
@@ -66,33 +66,14 @@ class Profile extends Component {
             }
         )
     }
-    
-    selfProfile = () => {
-        const { currentUser } = this.state;
-        console.log(currentUser);
-        return (
-            <div>
-                <header className="jumbotron">
-                <h3>
-                        <strong>{currentUser.username}</strong> Profile
-                    </h3>
-                    <h6> Current Profile Image</h6>
-                    <Image src={this.state.currentUserProfile || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img"/>
-                    <h6> Change Profile Image</h6>
-                    <this.UploadAndDisplayImage />
-                    <br />
-                    <Button variant="outline-primary" onClick={this.changeProfilePicture} >Change Profile Picture</Button>
-                </header>
-                
-            </div>)
-    }
+
 
     UploadAndDisplayImage = () => {
         return (
             <div>
                 {this.state.selectedImage && (
                     <div>
-                        <img alt="not found" width={"100px"} src={URL.createObjectURL(this.state.selectedImage)} className="profile-img"/>
+                        <img alt="not found" width={"100px"} src={URL.createObjectURL(this.state.selectedImage)} className="profile-img" />
                         <br />
                         <button onClick={() => this.setState({ selectedImage: null })}>Remove</button>
                     </div>
@@ -120,7 +101,21 @@ class Profile extends Component {
             <div className="container">
                 {(this.state.userReady) ?
                     <div>
-                        <this.selfProfile />
+                        <div>
+                            <header className="jumbotron">
+                                <h3>
+                                    <strong>{this.state.currentUser.username}</strong> Profile
+                                </h3>
+                                <h6> Current Profile Image</h6>
+                                <Image src={this.state.currentUserProfile || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img" />
+                                <h6> Change Profile Image</h6>
+                                <this.UploadAndDisplayImage />
+                                <br />
+                                <Button variant="outline-primary" onClick={this.changeProfilePicture} >Change Profile Picture</Button>
+                            </header>
+
+                        </div>)
+
                     </div>
                     : null}
             </div>
