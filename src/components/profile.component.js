@@ -6,6 +6,7 @@ import { withRouter } from '../common/with-router';
 import Content from "../common/content";
 import UserService from "../services/user.service";
 import Button from 'react-bootstrap/Button';
+import { Image } from "react-bootstrap";
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +16,8 @@ class Profile extends Component {
             userReady: false,
             currentUser: { username: "" },
             userProfile: {},
+            userProfilePicture: AuthService.getProfilePicture(),
+            redirectProfile: false
         };
     }
 
@@ -47,29 +50,16 @@ class Profile extends Component {
         const { currentUser } = this.state;
         return (
             <div>
-                <header className="jumbotron">
-                    <p>left Profile picture here</p>
-                    <h3>
+                <header className="jumbotron" style={{display:"flex", flexDirection:"column"}}>
+                    <Image src={this.state.userProfilePicture || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img"/>
+                    <h1 style={{textAlign:"center"}}>
                         <strong>{currentUser.username}</strong> Profile
-                    </h3>
+                    </h1>
+                    <Button onClick={() => this.setState({redirectProfile: true})}> Setting </Button>
                 </header>
-                <Button> Setting </Button>
-                <Button> Edit Profile </Button>
+                
 
-                {/* for debug only */}
-                <p>
-                    <strong>Token:</strong>{" "}
-                    {currentUser.accessToken.substring(0, 20)} ...{" "}
-                    {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-                </p>
-                <p>
-                    <strong>Id:</strong>{" "}
-                    {currentUser.id}
-                </p>
-                <p>
-                    <strong>Email:</strong>{" "}
-                    {currentUser.email}
-                </p>
+
             </div>)
     }
 
@@ -78,8 +68,10 @@ class Profile extends Component {
             toast.error("You need to login to view that page")
             return <Navigate to={this.state.redirect} />
         }
-
-
+        if (this.state.redirectProfile) {
+            this.setState({redirectProfile: false})
+            return <Navigate to="/settings" />
+        }
 
         return (
             <div className="container">
