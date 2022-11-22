@@ -16,11 +16,11 @@ export default class Search extends Component {
     searchusername = () => {
         UserService.searchUser(this.state.username).then(
             (response) => {
-                console.log(response.data)
+                
                 window.location.href = "/profile/" + response.data._id;
             },
             (error) => {
-                console.log(error);
+                
             }
         );
     }

@@ -23,17 +23,14 @@ class UserService {
 
     async publishPost(text, visibility, image) {
         var response;
-        console.log(text);
-        console.log(visibility);
-        console.log(image);
+        
+        
+        
         if(image){
             const formData = new FormData();
             formData.append('image', image);
             formData.append('text', text);
             formData.append('visibility', visibility);
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ': ' + pair[1]); 
-            }
             response =  axios.post(API_URL + "insertpostimage", formData, { headers: {...authHeader(), 'Content-Type': 'multipart/form-data'} });
         }
         else{
@@ -91,7 +88,7 @@ class UserService {
     }
 
     async unfollow(profile_userID) {
-        console.log(profile_userID)
+        
         const response = (axios.post(API_URL + "unfollow", { profile_userID }, { headers: authHeader() }));
         toast.promise(
             response,
@@ -109,7 +106,7 @@ class UserService {
     }
 
     async like(postId){
-        console.log(postId)
+        
         const response = (axios.post(API_URL + "like", { postId }, { headers: authHeader() }));
         toast.promise(
             response,
@@ -123,7 +120,7 @@ class UserService {
     }
 
     async unlike(postId){
-        console.log(postId)
+        
         const response = (axios.post(API_URL + "unlike", { postId }, { headers: authHeader() }));
         toast.promise(
             response,
@@ -136,7 +133,7 @@ class UserService {
         return response
     }
     async addcomment(postId, commenttext){
-        console.log(postId)
+        
         const response = (axios.post(API_URL + "addcomment", { postId, commenttext }, { headers: authHeader() }));
         toast.promise(
             response,

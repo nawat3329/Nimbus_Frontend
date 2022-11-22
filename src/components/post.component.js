@@ -38,14 +38,14 @@ class Post extends Component {
     }
 
     fetchContent = () => {
-        console.log(this.props.router.params?.postID);
+        
         UserService.getpostdetail(this.props.router.params?.postID).then(
             (response) => {
-                console.log(response.data);
+                
                 this.insertResponse(response.data);
             },
             (error) => {
-                console.log(error);
+                
                 toast.error("post not found")
                 this.setState({ found: false })
 
@@ -56,31 +56,31 @@ class Post extends Component {
     fetchComment = () => {
         UserService.getPostComment(this.props.router.params?.postID).then(
             (response) => {
-                console.log(response.data);
-                this.setState({ comment: response.data }, () => console.log(this.state.comment));
+                
+                this.setState({ comment: response.data });
             },
             (error) => {
-                console.log(error);
+                
             }
         )
     }
 
 
     insertResponse = (response) => {
-        console.log(response)
+        
         this.setState({ post: <PostResponse response={response} /> });
     }
 
     addComment = () => {
-        console.log(this.state.commentInput);
+        
         UserService.addcomment(this.props.router.params?.postID, this.state.commentInput).then(
             (response) => {
-                console.log(response.data);
+                
                 this.setState({ commentInput: "" });
                 this.fetchComment();
             },
             (error) => {
-                console.log(error);
+                
             }
         )
     }
@@ -112,11 +112,11 @@ class Post extends Component {
     deleteComment = (commentID) => {
         UserService.deletecomment(this.props.router.params?.postID, commentID).then(
             (response) => {
-                console.log(response.data);
+                
                 this.fetchComment();
             },
             (error) => {
-                console.log(error);
+                
             }
         )
     }

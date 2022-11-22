@@ -26,11 +26,11 @@ class Profile extends Component {
     getUserDetail = () => {
         UserService.getSelfProfileContent().then(
             (response) => {
-                console.log(response.data)
+                
                 this.setState({
                     userProfile: response.data
                 })
-                console.log(this.state.userProfile)
+                
             },
             (error) => {
                 this.setState({
@@ -50,7 +50,7 @@ class Profile extends Component {
         }
         UserService.changeProfilePicture(this.state.selectedImage).then(
             (response) => {
-                console.log(response);
+                
                 AuthService.setProfilePicture(response.data.images);
                 window.location.href = "/profile";
             },
@@ -61,7 +61,7 @@ class Profile extends Component {
                         error.message ||
                         error.toString(),
                 });
-                console.log(error)
+                
             }
         )
     }
@@ -84,7 +84,7 @@ class Profile extends Component {
                     type="file"
                     name="myImage"
                     onChange={(event) => {
-                        console.log(event.target.files[0]);
+                        
                         this.setState({ selectedImage: event.target.files[0] });
                     }}
                 />

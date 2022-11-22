@@ -34,12 +34,12 @@ export default function PostResponse(props) {
     function like() {
         UserService.like(response._id).then(
             (response) => {
-                console.log(response);
+                
                 setIsLike(true);
                 setCount(count + 1);
             },
             (error) => {
-                console.log(error);
+                
 
             }
         );
@@ -48,12 +48,12 @@ export default function PostResponse(props) {
     function unlike() {
         UserService.unlike(response._id).then(
             (response) => {
-                console.log(response)
+                
                 setIsLike(false);
                 setCount(count - 1);
             },
             (error) => {
-                console.log(error);
+                
             }
         );
     }
@@ -61,12 +61,12 @@ export default function PostResponse(props) {
     function deletepost() {
         UserService.deletepost(response._id).then(
             (response) => {
-                console.log(response);
+                
                 window.location.reload();
                 toast.success("post deleted");
             },
             (error) => {
-                console.log(error);
+                
             }
         );
     }
@@ -74,12 +74,12 @@ export default function PostResponse(props) {
     function editPost() {
         UserService.editpost(response._id, text, visibility).then(
             (response) => {
-                console.log(response);
+                
                 window.location.reload();
-                toast.success("post deleted");
+                toast.success("post edited");
             },
             (error) => {
-                console.log(error);
+                
             }
         );
     }

@@ -17,13 +17,13 @@ export default class Content extends Component {
 
 	componentDidMount() {
 		const currentUser = AuthService.getCurrentUser();
-		console.log(currentUser);
+		
 		currentUser ? this.setState({userID: currentUser.id}, () => {this.fetchContent()}) : this.fetchContent();
 	}
 
 	fetchContent = () => {
-		console.log(this.props.pageType)
-		console.log(this.state.totalPage);
+		
+		
 		if (this.props.pageType === "home") {
 			if (this.props.visibilityView === "Public") {
 				UserService.getHomeContent(this.state.page, this.state.userID).then(
@@ -66,7 +66,7 @@ export default class Content extends Component {
 			if (this.props.profile_userID) {
 				UserService.getProfileContent(this.state.page, this.props.profile_userID).then(
 					(response) => {
-						console.log(response);
+						
 						this.setState({
 							totalPage: response.data.totalPage
 						})
@@ -85,7 +85,7 @@ export default class Content extends Component {
 			else {
 				UserService.getSelfProfileContent(this.state.page).then(
 					(response) => {
-						console.log(response);
+						
 						this.setState({
 							totalPage: response.data.totalPage
 						})
@@ -105,15 +105,15 @@ export default class Content extends Component {
 	}
 
 	insertResponse = (response) => {
-		console.log(this.state.page);
-		console.log(response);
+		
+		
 		const rows = [];
 		for (let i = 0; i < response.length; i++) {
 			rows.push(
 				<PostResponse key={response[i]._id} response={response[i]} fetchContent={this.fetchContent} />
 			);
 		}
-		console.log(rows)
+		
 		this.setState({
 			content: rows,
 		});

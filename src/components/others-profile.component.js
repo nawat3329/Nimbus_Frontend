@@ -28,11 +28,11 @@ class OthersProfile extends Component {
     getUserDetail = () => {
         UserService.getProfileDetail(this.props.router.params.userID).then(
             (response) => {
-                console.log(response.data)
+                
                 this.setState({
                     userProfile: response.data
                 })
-                console.log(this.state.userProfile)
+                
             },
             (error) => {
                 this.setState({
@@ -72,7 +72,7 @@ class OthersProfile extends Component {
     pressFollow = () => {
         UserService.follow(this.state.userProfile._id).then(
             (response) => {
-                console.log(response.data)
+                
                 this.getUserDetail();
             },
             (error) => {
@@ -89,7 +89,7 @@ class OthersProfile extends Component {
     pressUnfollow = () => {
         UserService.unfollow(this.state.userProfile._id).then(
             (response) => {
-                console.log(response.data)
+                
                 this.getUserDetail();
             },
             (error) => {
@@ -108,10 +108,10 @@ class OthersProfile extends Component {
             toast.error("You need to login to view that page")
             return <Navigate to={this.state.redirect} />
         }
-        console.log(this.props.router.params?.userID)
-        console.log(this.state.currentUser.id)
+        
+        
         if (this.props.router.params?.userID === this.state.currentUser.id) {
-            console.log("Your own profile")
+            
             return <Navigate to="/profile" />
         }
 

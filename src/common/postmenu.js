@@ -34,9 +34,9 @@ export default class Home extends Component {
         }
         UserService.publishPost(this.state.textInput, this.state.visibilityInput, this.state.selectedImage).then(
             (response) => {
-                console.log(response);
+                
                 this.setState({ textInput: "" });
-                this.props.pass.current.fetchContent();
+                this.props.pass.current?.fetchContent();
             },
             (error) => {
                 this.setState({
@@ -45,7 +45,7 @@ export default class Home extends Component {
                         error.message ||
                         error.toString(),
                 });
-                console.log(error)
+                
             }
         )
     }
@@ -98,7 +98,7 @@ export default class Home extends Component {
                     type="file"
                     name="myImage"
                     onChange={(event) => {
-                        console.log(event.target.files[0]);
+                        
                         this.setState({ selectedImage: event.target.files[0] });
                     }}
                 />

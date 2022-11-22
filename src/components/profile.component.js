@@ -30,11 +30,11 @@ class Profile extends Component {
     getUserDetail = () => {
         UserService.getSelfProfileContent().then(
             (response) => {
-                console.log(response.data)
+                
                 this.setState({
                     userProfile: response.data
                 })
-                console.log(this.state.userProfile)
+                
             },
             (error) => {
                 this.setState({
