@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import {configure} from '@testing-library/dom'
 import App from './App';
+import axios from 'axios';
 
-
+jest.setTimeout(30000)
 
 const renderWithRouter = (ui, { route = '/' } = {}) => {
   window.history.pushState({}, 'Test page', route)
@@ -14,6 +15,11 @@ const renderWithRouter = (ui, { route = '/' } = {}) => {
     ...render(ui, { wrapper: BrowserRouter }),
   }
 }
+
+test('ping backend server', async () => {
+  axios.get(process.env.REACT_APP_ROOT_URL).then(
+    data => { expect(data.data.message).toEqual("Welcome to dino's application.") });
+});
 
 test('render home page', async () => {
   render(<App />, { wrapper: BrowserRouter });
