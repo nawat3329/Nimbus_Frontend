@@ -29,5 +29,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+    - name: create env file
+      run: |
+        touch .env
+        echo REACT_APP_AUTH_API_URL="${{ secrets.REACT_APP_AUTH_API_URL }}" >> .env
+        echo REACT_APP_CONTENT_API_URL="${{ secrets.REACT_APP_CONTENT_API_URL }}" >> .env
+        echo REACT_APP_ROOT_URL="${{ secrets.REACT_APP_ROOT_URL }}" >> .env
     - run: npm run build --if-present
     - run: npm test
