@@ -21,14 +21,20 @@ class Post extends Component {
             comment: [],
             commentInput: "",
             userID: "",
+            redirect: null
         };
     }
 
     componentDidMount() {
         const currentUser = AuthService.getCurrentUser();
-        this.setState({userID: currentUser.id})
-        this.fetchContent();
-        this.fetchComment();
+        if (!currentUser) {
+            this.setState({ redirect: "/home" });
+        }
+        else {
+            this.setState({ userID: currentUser.id })
+            this.fetchContent();
+            this.fetchComment();
+        }
     }
 
     fetchContent = () => {
@@ -82,29 +88,29 @@ class Post extends Component {
     insertComment = () => {
         const commentArray = this.state.comment;
         var rows = [];
-        for (let i = commentArray.length-1; i>=0; i--) {
-			rows.push(
-				<div key={commentArray[i]._id} className="card">
+        for (let i = commentArray.length - 1; i >= 0; i--) {
+            rows.push(
+                <div key={commentArray[i]._id} className="card">
                     <h5 className="card-header">
-                    <Image src={commentArray[i].images || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img-small"/>
+                        <Image src={commentArray[i].images || "https://ssl.gstatic.com/accounts/ui/avatar_2x.png"} className="profile-img-small" />
                         {commentArray[i].username}
                     </h5>
                     <div className="card-body">
                         <h5 className="card-text">{commentArray[i].usercomment}</h5>
                     </div>
                     <div className="p-2">
-                            {commentArray[i].usercommentid === this.state.userID ?
-                                <Button variant="outline-danger" size="sm" onClick={() => this.deleteComment(commentArray[i]._id)}>Delete</Button> : null}
+                        {commentArray[i].usercommentid === this.state.userID ?
+                            <Button variant="outline-danger" size="sm" onClick={() => this.deleteComment(commentArray[i]._id)}>Delete</Button> : null}
                     </div>
                 </div>
-			);
-		}
+            );
+        }
         return rows;
     }
 
 
     deleteComment = (commentID) => {
-        UserService.deletecomment(this.props.router.params?.postID,commentID).then(
+        UserService.deletecomment(this.props.router.params?.postID, commentID).then(
             (response) => {
                 console.log(response.data);
                 this.fetchComment();
@@ -121,6 +127,10 @@ class Post extends Component {
     render() {
         if (!this.state.found) {
             return <Navigate to="/home" />
+        }
+        if (this.state.redirect) {
+            toast.error("You need to login to view that page")
+            return <Navigate to={this.state.redirect} />
         }
         return (
             <div className="container">

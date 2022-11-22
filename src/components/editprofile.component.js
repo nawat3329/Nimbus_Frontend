@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import { toast } from 'react-toastify';
 import { withRouter } from '../common/with-router';
@@ -114,7 +113,7 @@ class Profile extends Component {
                                 <Button variant="outline-primary" onClick={this.changeProfilePicture} >Change Profile Picture</Button>
                             </header>
 
-                        </div>)
+                        </div>
 
                     </div>
                     : null}
