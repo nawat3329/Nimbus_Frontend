@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import Button from 'react-bootstrap/Button';
-import {  Link } from "react-router-dom";
-
+import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
-
+import PostResponse from "./postresponse";
 export default class Content extends Component {
 	constructor(props) {
 		super(props);
@@ -11,12 +10,15 @@ export default class Content extends Component {
 		this.state = {
 			content: "",
 			page: 1,
-			totalPage: 1
+			totalPage: 1,
+			userID: null
 		};
 	}
 
 	componentDidMount() {
-		this.fetchContent();
+		const currentUser = AuthService.getCurrentUser();
+		console.log(currentUser);
+		currentUser ? this.setState({userID: currentUser.id}, () => {this.fetchContent()}) : this.fetchContent();
 	}
 
 	fetchContent = () => {
@@ -24,7 +26,25 @@ export default class Content extends Component {
 		console.log(this.state.totalPage);
 		if (this.props.pageType === "home") {
 			if (this.props.visibilityView === "Public") {
-				UserService.getHomeContent(this.state.page).then(
+				UserService.getHomeContent(this.state.page, this.state.userID).then(
+					(response) => {
+						this.setState({
+							totalPage: response.data.totalPage
+						})
+						this.insertResponse(response.data.postRes)
+					},
+					(error) => {
+						this.setState({
+							content:
+								(error.response && error.response.data) ||
+								error.message ||
+								error.toString(),
+						});
+					}
+				);
+			}
+			else if (this.props.visibilityView === "Follow") {
+				UserService.getHomeFollowContent(this.state.page).then(
 					(response) => {
 						this.setState({
 							totalPage: response.data.totalPage
@@ -90,19 +110,10 @@ export default class Content extends Component {
 		const rows = [];
 		for (let i = 0; i < response.length; i++) {
 			rows.push(
-				<div key={response[i]?._id} className="card">
-					<Link to={"/profile/"+response[i]?.author} className="card-header">
-					{response[i]?.username}
-					</Link>
-					<div className="card-body">
-						<h5 className="card-title">{response[i]?.text}</h5>
-						<p className="card-text">
-							picture here
-						</p>
-					</div>
-				</div>
+				<PostResponse key={response[i]._id} response={response[i]} fetchContent={this.fetchContent} />
 			);
 		}
+		console.log(rows)
 		this.setState({
 			content: rows,
 		});
@@ -112,12 +123,13 @@ export default class Content extends Component {
 		this.setState((prevState) => ({
 			page: prevState.page + move
 		}),
-			() => this.fetchContent());
+			() => this.fetchContent() );
+			window.scrollTo({ top: 0 })
 	}
 
 	pageButton = () => {
 		return (
-			<div class="d-flex justify-content-around">
+			<div className="d-flex justify-content-around">
 				<Button
 					disabled={this.state.page <= 1}
 					onClick={() => this.changePage(-1)}
